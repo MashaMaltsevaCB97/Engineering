@@ -1,7 +1,7 @@
 [project]
 name = "engineering"
 version = "0.1.0"
-description = "Add your description here"
+description = "Загрузка спектров флуоресценции"
 readme = "README.md"
 authors = [
     { name = "Maria Maltseva", email = "mariya.maltseva.5535@mail.ru" }
@@ -12,9 +12,6 @@ dependencies = [
     "pandas>=3.1.1",
     "requests>=2.34.2",
 ]
-
-[project.scripts]
-engineering = "engineering:main"
 
 [build-system]
 requires = ["uv_build>=0.13.7,<0.14.0"]
