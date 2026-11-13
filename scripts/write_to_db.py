@@ -1,3 +1,4 @@
+import sys
 import os
 from dotenv import load_dotenv
 import pandas as pd
@@ -16,15 +17,14 @@ if not all([host, port, db, user, password]):
     print("Ошибка: не все переменные найдены в .env")
     exit(1)
 
-df = pd.read_csv(Path(__file__).resolve().parent.parent / "спектры.csv", sep=';', encoding='utf-8-sig')
-
-
-first_col = df.columns[0]
-
-#if "Длина" not in first_col and "волн" not in first_col:
-   # print(f"Внимание: первый столбец называется '{first_col}'")
-    #raise ValueError("Неправильный первый столбец! Ожидалась 'Длина волны'")
-df = df.rename(columns={first_col: "wavelength_nm"})
+    df = pd.read_csv(file_path, sep=';', encoding='utf-8-sig')
+    
+    
+    first_col = df.columns[0]
+    if "Длина волны" not in first_col:
+        raise ValueError(f"Ожидался столбец 'Длина волны', но найден: '{first_col}'")
+    
+    df = df.rename(columns={first_col: "wavelength_nm"})
 
 df_100 = df.head(100)
 
@@ -48,3 +48,4 @@ try:
     print(f"Готово, строк: {len(df_100)}. Колонок: {len(df_100.columns)}")
 except Exception as e:
     print(f"Ошибка при записи: {e}")
+    sys.exit(1)
