@@ -1,9 +1,5 @@
 import argparse
 import sys
-from pathlib import Path
-
-sys.path.append(str(Path(__file__).parent.parent))
-
 from etl.extract import extract_data
 from etl.transform import transform_data
 from etl.load import load_data

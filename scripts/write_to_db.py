@@ -15,16 +15,16 @@ password = os.getenv("DB_PASSWORD")
 
 if not all([host, port, db, user, password]):
     print("Ошибка: не все переменные найдены в .env")
-    exit(1)
+    sys.exit(1)
 
-    df = pd.read_csv(file_path, sep=';', encoding='utf-8-sig')
+df = pd.read_csv(file_path, sep=';', encoding='utf-8-sig')
     
     
-    first_col = df.columns[0]
-    if "Длина волны" not in first_col:
-        raise ValueError(f"Ожидался столбец 'Длина волны', но найден: '{first_col}'")
+first_col = df.columns[0]
+if "Длина волны" not in first_col:
+    raise ValueError(f"Ожидался столбец 'Длина волны', но найден: '{first_col}'")
     
-    df = df.rename(columns={first_col: "wavelength_nm"})
+df = df.rename(columns={first_col: "wavelength_nm"})
 
 df_100 = df.head(100)
 
