@@ -495,7 +495,7 @@ wheels = [
 [[package]]
 name = "engineering"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "jupyter" },
     { name = "kaleido" },
@@ -508,6 +508,15 @@ dependencies = [
     { name = "requests" },
     { name = "seaborn" },
     { name = "sqlalchemy" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "jupyter" },
+    { name = "kaleido" },
+    { name = "matplotlib" },
+    { name = "plotly" },
+    { name = "seaborn" },
 ]
 
 [package.metadata]
@@ -523,6 +532,15 @@ requires-dist = [
     { name = "requests", specifier = ">=2.34.2" },
     { name = "seaborn", specifier = ">=0.13.2" },
     { name = "sqlalchemy", specifier = ">=2.1.8" },
+]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "jupyter" },
+    { name = "kaleido", specifier = "==0.1.0.post1" },
+    { name = "matplotlib" },
+    { name = "plotly" },
+    { name = "seaborn" },
 ]
 
 [[package]]

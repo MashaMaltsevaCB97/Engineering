@@ -4,16 +4,27 @@ version = "0.1.0"
 description = "Загрузка спектров флуоресценции"
 readme = "README.md"
 requires-python = ">=3.13"
+packages = [{ include = "etl", from = "src" }] 
 dependencies = [
-    "jupyter>=1.1.1",
-    "kaleido==0.1.0.post1",
-    "matplotlib>=3.11.2",
     "pandas>=3.1.1",
-    "plotly==5.24.1",
     "psycopg2-binary>=2.9.13",
     "pyarrow>=26.0.1",
     "python-dotenv>=1.2.4",
-    "requests>=2.34.2",
-    "seaborn>=0.13.2",
     "sqlalchemy>=2.1.8",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/etl"]
+
+[dependency-groups]
+dev = [
+    "jupyter",
+    "matplotlib",
+    "seaborn",
+    "plotly",
+    "kaleido==0.1.0.post1"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
