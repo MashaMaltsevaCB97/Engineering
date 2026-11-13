@@ -9,32 +9,38 @@ def read_spectra(file_path, sep=';', encoding='utf-8-sig'):
         return df.rename(columns={df.columns[0]: "Длина волны, нм"})
     except FileNotFoundError:
         print(f"Ошибка: Файл {file_path} не найден.")
-        return None
+        return df
 
-def load_spectra(df):
 
+def clean_spectra(df):
+    
     df_clean = df.copy()
 
     for col in df.columns:
         try:
             df[col] = pd.to_numeric(df[col])
         except ValueError:
-            print(f"Столбец {col} выводится как есть")
-    return df 
+            print(f"Столбец {col} оставлен как есть")
+
+    return df_clean 
+
 
 if __name__ == '__main__':
     file_name = Path(__file__).parent / 'спектры.csv'
-    
-    data = read_spectra(file_name)
 
-    data = load_spectra(data)
+    try:
+        data = read_spectra(file_name)
+        
+        data = clean_spectra(data)
+        print("первые 10 строк:")
+        print(data.head(10))
+        print("\n Типы данных:")
+        print(data.dtypes)
+        
+        
+        save_path = Path(__file__).parent / 'spectra.parquet'
+        data.to_parquet(save_path)
+        print(f"\n Данные сохранены в {save_path.name}")
     
-    print("первые 10 строк:")
-    print(data.head(10))
-    print("\n Типы данных:")
-    print(data.dtypes)
-    
-    # Сохраняем в parquet
-    save_path = Path(__file__).parent / 'spectra.parquet'
-    data.to_parquet(save_path)
-    print(f"\n Данные сохранены в {save_path.name}")
+    except FileNotFoundError:
+        print(f"Ошибка: {file_name} не найден. Убедитесь, что он лежит в корне папки.")
