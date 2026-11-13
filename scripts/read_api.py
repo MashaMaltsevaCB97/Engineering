@@ -1,3 +1,4 @@
+import sys
 import requests
 import pandas as pd
 from pathlib import Path
@@ -24,5 +25,6 @@ try:
     print(f"Данные сохранены в {save_path}")
     print(df.head())
 
-except Exception as e:
+except requests.RequestException as e:
     print(f"Ошибка: {e}")
+    sys.exit(1)

@@ -19,4 +19,5 @@
 ```bash
 uv run scripts/read_api.py
 ```
+
 [Скриншот датасета](screenshot.png)
