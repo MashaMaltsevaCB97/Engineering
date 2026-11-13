@@ -1,33 +1,46 @@
+import os
+from dotenv import load_dotenv
 import pandas as pd
+from pathlib import Path
 from sqlalchemy import create_engine
+from pathlib import Path
+
+load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
+
+host = os.getenv("DB_HOST")
+port = os.getenv("DB_PORT")
+db = os.getenv("DB_NAME")
+user = os.getenv("DB_USER")
+password = os.getenv("DB_PASSWORD")
 
 
-host = "85.193.80.59"
-port = "5432"
-db = "homeworks"
-user = "deexpert"
-password = "what_a_Wonderful_Day!" 
+df = pd.read_csv(Path(__file__).resolve().parent.parent / "спектры.csv", sep=';', encoding='utf-8-sig')
 
 
-df = pd.read_csv("спектры.csv", sep=';', encoding='utf-8-sig')
-df = df.rename(columns={df.columns[0]: "wavelength_nm"})
+first_col = df.columns[0]
+if "Длина волны" not in first_col:
+    print(f"Первый столбец называется '{first_col}'")
+df = df.rename(columns={first_col: "wavelength_nm"})
+
 df_100 = df.head(100)
 
 
 conn_str = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{db}"
-
-
 engine = create_engine(conn_str)
 
 
 table_name = "maltsevama"
 
 
-df_100.to_sql(
-    name=table_name,
-    con=engine,
-    if_exists="replace",
-    index=False
-)
+print(f"Попытка записи {len(df_100)} строк в таблицу {table_name}...")
 
-print("Готово")
+try:
+    df_100.to_sql(
+        name=table_name,
+        con=engine,
+        if_exists="replace",
+        index=False
+    )
+    print(f"Готово, строк: {len(df_100)}. Колонок: {len(df_100.columns)}")
+except Exception as e:
+    print(f"Ошибка при записи: {e}")
