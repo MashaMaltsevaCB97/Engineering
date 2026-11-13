@@ -2,3 +2,4 @@
 *.parquet
 спектры.csv
 спектры.xlsx
+data/
