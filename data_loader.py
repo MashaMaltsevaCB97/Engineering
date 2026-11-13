@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 def read_spectra(file_path, sep=';', encoding='utf-8-sig'):
-    """Загружает данные спектров из файла."""
+    
     try:
         df = pd.read_csv(file_path, sep=sep, encoding=encoding)
         return df.rename(columns={df.columns[0]: "Длина волны, нм"})
