@@ -4,3 +4,5 @@
 спектры.xlsx
 data/
 __pycache__/
+creds.db
+.env
