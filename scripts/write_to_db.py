@@ -1,5 +1,6 @@
 import sys
 import os
+from urllib.parse import quote_plus
 from dotenv import load_dotenv
 import pandas as pd
 from sqlalchemy import create_engine
@@ -17,9 +18,12 @@ if not all([host, port, db, user, password]):
     print("Ошибка: не все переменные найдены в .env")
     sys.exit(1)
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+file_path = BASE_DIR / "спектры.csv"
+
 df = pd.read_csv(file_path, sep=';', encoding='utf-8-sig')
-    
-    
+
+
 first_col = df.columns[0]
 if "Длина волны" not in first_col:
     raise ValueError(f"Ожидался столбец 'Длина волны', но найден: '{first_col}'")
@@ -29,7 +33,8 @@ df = df.rename(columns={first_col: "wavelength_nm"})
 df_100 = df.head(100)
 
 
-conn_str = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{db}"
+safe_password = quote_plus(password)
+conn_str = f"postgresql+psycopg2://{user}:{safe_password}@{host}:{port}/{db}"
 engine = create_engine(conn_str)
 
 
