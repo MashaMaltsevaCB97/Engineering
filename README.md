@@ -21,3 +21,7 @@ uv sync
 ```bash
 uv run data_loader.py
 ```
+
+### HomeWork3
+
+Код `data_loader.py` загружает данные со спектрами, приводит типы данных в порядок и сохраняет результат в формат `.parquet`.
