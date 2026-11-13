@@ -12,7 +12,7 @@ headers = {'User-Agent': 'StudentHomework/1.0'}
 
 print("Запрос к Shikimori...")
 try:
-    response = requests.get(url, params=params, headers=headers, timeout=20)
+    response = requests.get(url, params=params, headers=headers, timeout=15)
     response.raise_for_status()
     data = response.json()
     
