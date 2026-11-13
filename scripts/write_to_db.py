@@ -17,6 +17,8 @@ if not all([host, port, db, user, password]):
     print("Ошибка: не все переменные найдены в .env")
     sys.exit(1)
 
+file_path = "спектры.csv"
+
 df = pd.read_csv(file_path, sep=';', encoding='utf-8-sig')
     
     
