@@ -2,7 +2,7 @@ import pandas as pd
 from pathlib import Path
 
 
-def read_data(file_path, sep=';', encoding='utf-8-sig'):
+def read_spectra(file_path, sep=';', encoding='utf-8-sig'):
     """Загружает данные спектров из файла."""
     try:
         df = pd.read_csv(file_path, sep=sep, encoding=encoding)
@@ -11,25 +11,30 @@ def read_data(file_path, sep=';', encoding='utf-8-sig'):
         print(f"Ошибка: Файл {file_path} не найден.")
         return None
 
-def fix_types(df):
+def load_spectra(df):
+
+    df_clean = df.copy()
+
     for col in df.columns:
         try:
             df[col] = pd.to_numeric(df[col])
         except ValueError:
-            pass
+            print(f"Столбец {col} выводится как есть")
     return df 
 
 if __name__ == '__main__':
     file_name = Path(__file__).parent / 'спектры.csv'
     
-    data = read_data(file_name)
+    data = read_spectra(file_name)
+
+    data = load_spectra(data)
     
-    if data is not None:
-        data = fix_types(data)
-        
-        print("Вот первые 10 строк:")
-        print(data.head(10))
-        
-        save_path = Path(__file__).parent / 'spectra.parquet'
-        data.to_parquet(save_path)
-        print(f"Данные сохранены в {save_path.name}")
+    print("первые 10 строк:")
+    print(data.head(10))
+    print("\n Типы данных:")
+    print(data.dtypes)
+    
+    # Сохраняем в parquet
+    save_path = Path(__file__).parent / 'spectra.parquet'
+    data.to_parquet(save_path)
+    print(f"\n Данные сохранены в {save_path.name}")
